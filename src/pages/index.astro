@@ -1,11 +1,65 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro"
+import { Image } from "astro:assets"
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import LogoImage from "../images/logo.svg"
+import SpotifyLogoImage from "../images/spotify.svg"
+import ApplePodcastsLogoImage from "../images/apple-podcast.svg"
+import GooglePodcastsLogoImage from "../images/google-podcasts.svg"
+import PocketCastsLogoImage from "../images/pocket-casts.svg"
+
+import EmailForm from "../components/EmailForm"
+
+const title = "Pod Request Access Landing Page"
+const description = "Request access to the Pod app and be the first to know when we launch."
+
+const logos = [
+    { src: SpotifyLogoImage, alt: "Spotify" },
+    { src: ApplePodcastsLogoImage, alt: "Apple Podcasts" },
+    { src: GooglePodcastsLogoImage, alt: "Google Podcasts" },
+    { src: PocketCastsLogoImage, alt: "Pocket Casts" },
+]
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title={title} description={description}>
+    <a
+        href="#main-content"
+        class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-blue-900 focus:px-3 focus:py-2 focus:text-white"
+    >
+        Skip to main content
+    </a>
+
+    <div
+        class="bg-image mx-auto my-auto flex min-h-screen flex-col justify-center gap-14 p-8 font-serif md:mx-11 md:min-h-min md:max-w-[37rem] md:justify-start md:gap-[6.5rem] md:p-0 md:pt-36 lg:mx-0 lg:max-w-[54rem] lg:pl-36"
+    >
+        <header>
+            <a href="#" aria-label="Pod homepage">
+                <Image class="mx-auto md:mx-0 md:mr-auto" src={LogoImage} alt="Pod logo" width="135" height="56" />
+            </a>
+        </header>
+        <main id="main-content" class="flex flex-col md:bg-blue-950 md:pt-[5.5rem]">
+            <h1
+                class="text-balance pb-4 text-center text-mobile-preset-1 uppercase text-white md:order-1 md:max-w-[28rem] md:pb-6 md:text-left md:text-desktop-preset-1 lg:max-w-full"
+            >
+                <em class="not-italic text-green">Publish your podcasts</em>
+                <br class="hidden lg:block" /> everywhere.
+            </h1>
+            <p
+                class="text-center text-mobile-preset-2 font-light text-blue-300 md:order-2 md:max-w-[28rem] md:pr-0 md:text-left md:text-desktop-preset-2"
+            >
+                Upload your audio to Pod with a single click. We’ll then distribute your podcast to Spotify, Apple Podcasts, Google
+                Podcasts, Pocket Casts and more!
+            </p>
+            <ul class="center mt-8 flex items-center justify-evenly gap-5 py-10 md:order-4 md:justify-normal md:gap-10 md:py-0 md:pr-16">
+                {
+                    logos.map((logo) => (
+                        <li>
+                            <Image src={logo.src} alt={logo.alt} />
+                        </li>
+                    ))
+                }
+            </ul>
+            <EmailForm client:load />
+        </main>
+    </div>
+</BaseLayout>
